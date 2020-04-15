@@ -1,0 +1,113 @@
+#!ipxe
+####       boot.duc.pw initial loader        ####
+set conn_type https
+chain --autofree https://boot.duc.pw/menu.ipxe || echo HTTPS failed... attempting HTTP...
+set conn_type http
+chain --autofree http://boot.duc.pw/menu.ipxe || echo HTTP failed, localbooting...
+exit
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>duc.pw BootLoaders</title>
+  </head>
+  <style>
+    table, th, td {
+    padding: 5px;
+    border: 1px solid black; 
+    }
+  </style>
+  <body>
+  <div style="font-family: monospace, fixed; font-weight: bold;">
+    <span style="">&#160;&#160;&#160;&#160;&#160;_&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><br />
+<span style="">&#160;&#160;__|&#160;|_&#160;&#160;&#160;_&#160;&#160;___&#160;&#160;&#160;_&#160;____&#160;&#160;&#160;&#160;&#160;&#160;__</span><br />
+<span style="">&#160;/&#160;_`&#160;|&#160;|&#160;|&#160;|/&#160;__|&#160;|&#160;&#39;_&#160;\&#160;\&#160;/\&#160;/&#160;/</span><br />
+<span style="">|&#160;(_|&#160;|&#160;|_|&#160;|&#160;(__&#160;_|&#160;|_)&#160;\&#160;V&#160;&#160;V&#160;/&#160;</span><br />
+<span style="">&#160;\__,_|\__,_|\___(_)&#160;.__/&#160;\_/\_/&#160;&#160;</span><br />
+<span style="">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|_|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><br />
+    <p>
+  Version: 10.0 </p>
+  <p>Legacy (PCBIOS) iPXE Bootloaders</p>
+  <table style="width:100%">
+    <!-- table header -->
+    <tr>
+       <th> Type </th>
+       <th> Bootloader </th>
+       <th> Description </th>
+    </tr>
+    <!-- table rows -->
+        <tr>
+       <td> ISO </td>
+       <td> <a href="ipxe/duc.pw.iso">duc.pw.iso</a> </td>
+       <td> Used for CD/DVD, Virtual CDs, DRAC/iLO, VMware, Virtual Box </td>
+    </tr>
+        <tr>
+       <td> USB </td>
+       <td> <a href="ipxe/duc.pw.usb">duc.pw.usb</a> </td>
+       <td> Used for creation of USB Keys </td>
+    </tr>
+        <tr>
+       <td> Kernel </td>
+       <td> <a href="ipxe/duc.pw.lkrn">duc.pw.lkrn</a> </td>
+       <td> Used for booting from GRUB/EXTLINUX </td>
+    </tr>
+        <tr>
+       <td> Floppy </td>
+       <td> <a href="ipxe/duc.pw.dsk">duc.pw.dsk</a> </td>
+       <td> Virtual floppy disk for DRAC/iLO, VMware, Virtual Box, etc </td>
+    </tr>
+        <tr>
+       <td> DHCP </td>
+       <td> <a href="ipxe/duc.pw.kpxe">duc.pw.kpxe</a> </td>
+       <td> DHCP boot image file, uses built-in iPXE NIC drivers </td>
+    </tr>
+        <tr>
+       <td> DHCP-undionly </td>
+       <td> <a href="ipxe/duc.pw-undionly.kpxe">duc.pw-undionly.kpxe</a> </td>
+       <td> DHCP boot image file, use if you have NIC issues </td>
+    </tr>
+      </table>
+
+  <p>UEFI iPXE Bootloaders</p>
+
+  <table style="width:100%">
+    <!-- table header -->
+    <tr>
+       <th> Type </th>
+       <th> Bootloader </th>
+       <th> Description </th>
+    </tr>
+    <!-- table rows -->
+        <tr>
+       <td> ISO </td>
+       <td> <a href="ipxe/duc.pw-efi.iso">duc.pw-efi.iso</a> </td>
+       <td> EFI BIOS, works in Virtual Box EFI mode </td>
+    </tr>
+        <tr>
+       <td> USB </td>
+       <td> <a href="ipxe/duc.pw-efi.usb">duc.pw-efi.usb</a> </td>
+       <td> Used for creation of USB Keys </td>
+    </tr>
+        <tr>
+       <td> DHCP </td>
+       <td> <a href="ipxe/duc.pw.efi">duc.pw.efi</a> </td>
+       <td> DHCP EFI boot image file, uses built-in iPXE NIC drivers </td>
+    </tr>
+        <tr>
+       <td> DHCP-snp </td>
+       <td> <a href="ipxe/duc.pw-snp.efi">duc.pw-snp.efi</a> </td>
+       <td> EFI w/ Simple Network Protocol, attempts to boot all net devices </td>
+    </tr>
+        <tr>
+       <td> DHCP-snponly </td>
+       <td> <a href="ipxe/duc.pw-snponly.efi">duc.pw-snponly.efi</a> </td>
+       <td> EFI w/ Simple Network Protocol, only boots from device chained from </td>
+    </tr>
+      </table>
+
+  <p>Checksums<p>
+
+  <a href="ipxe/duc.pw-sha256-checksums.txt">SHA256 checksums</a>
+  </div>
+  </body>
+</html>

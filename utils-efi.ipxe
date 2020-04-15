@@ -1,0 +1,70 @@
+#!ipxe
+
+menu Utilities
+item --gap Utilities:
+item 4mlinux ${space} 4MLinux
+item bootrepair ${space} Boot Repair CD
+item caine ${space} CAINE
+item clonezilla ${space} Clonezilla
+item gparted ${space} GParted
+item grml ${space} Grml
+item kaspersky ${space} Kaspersky Rescue Disk
+item rescatux ${space} Rescatux
+item systemrescue ${space} System Rescue CD
+item --gap duc.pw tools:
+item nbxyz-custom ${space} Set Github username [user: ${github_user}]
+item testpr ${space} Test forked duc.pw branch or hash
+item nbxyz ${space} duc.pw endpoints
+choose --default ${menu} menu || goto utils_exit
+echo ${cls}
+goto ${menu} ||
+chain ${menu}.ipxe || goto utils_exit
+goto utils_exit
+
+:bootrepair
+imgfree
+kernel ${live_endpoint}/ubuntu-squash/releases/download/current-e035b00c/vmlinuz ip=dhcp boot=casper netboot=http fetch=${live_endpoint}/ubuntu-squash/releases/download/current-e035b00c/filesystem.squashfs initrd=initrd
+initrd ${live_endpoint}/ubuntu-squash/releases/download/current-e035b00c/initrd
+boot
+goto utils_exit
+:caine
+imgfree
+kernel ${live_endpoint}/ubuntu-squash/releases/download/11.0-0f2bac21/vmlinuz ip=dhcp boot=casper netboot=http fetch=${live_endpoint}/ubuntu-squash/releases/download/11.0-0f2bac21/filesystem.squashfs initrd=initrd
+initrd ${live_endpoint}/ubuntu-squash/releases/download/11.0-0f2bac21/initrd
+boot
+goto utils_exit
+:rescatux
+imgfree
+kernel ${live_endpoint}/debian-squash/releases/download/0.72-beta6-0775b306/vmlinuz boot=live fetch=${live_endpoint}/debian-squash/releases/download/0.72-beta6-0775b306/filesystem.squashfs selinux=1 security=selinux enforcing=0 initrd=initrd
+initrd ${live_endpoint}/debian-squash/releases/download/0.72-beta6-0775b306/initrd
+boot
+goto utils_exit
+
+:nbxyz-custom
+echo EXPERIMENTAL
+echo 
+echo Make sure you have a fork of https://github.com/netbootxyz/duc.pw-custom.
+echo You can then customize your fork as needed and set up your own custom options.
+echo Once your username is set, a custom option will appear on the main menu.
+echo
+echo -n Please enter your Github username: ${} && read github_user
+goto utils_exit
+
+:testpr
+clear github_user
+clear github_branch_or_hash
+echo This will chainload into a testing branch of duc.pw. You'll need to enter
+echo your Github username and the first part of the commit hash of the commit you want
+echo to test or the branch name. This assumes you are testing from a forked duc.pw
+echo repo.
+echo
+echo -n Specify Github username: ${} && read github_user
+echo -n Specify Github branch name or commit hash ( i.e. my_feature or 30b7ca ): ${} && read github_branch_or_hash
+echo
+echo Attempting to chainload branch or hash:
+chain --autofree https://raw.githubusercontent.com/${github_user}/duc.pw/${github_branch_or_hash}/src/menu.ipxe || echo Unable to find Github branch or hash... && sleep 5 && goto utils_exit
+goto utils_exit
+
+:utils_exit
+clear menu
+exit 0
